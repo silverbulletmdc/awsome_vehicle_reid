@@ -1,0 +1,71 @@
+[
+  {
+    "title": "Orientation Invariant Feature Embedding and Spatial Temporal Regularization for Vehicle Re-identification",
+    "year": 2017,
+    "journal": "CVPR",
+    "datasets": {
+      "VERI776": {
+        "mAP": 51.42,
+        "R@5": 68.30,
+        "R@1": 89.70
+      }
+    },
+    "authors": ["Wang Zhongdao", "Luming Tang"],
+    "links": {}
+  },
+  {
+    "title": "PROVID: Progressive and Multimodal Vehicle Reidentification for Large-Scale Urban Surveillance",
+    "year": 2018,
+    "journal": "TMM",
+    "datasets": {
+      "VERI776": {
+        "mAP": 48.47,
+        "R@1": 76.76,
+        "R@5": 91.42
+      },
+      "VehicleID": {
+        "R@1": "48.90, 43.64, 38.63",
+        "R@5": "69.51, 65.34, 60.72"
+      }
+    },
+    "authors": ["Xinchen Liu", "Wu Liu"],
+    "links": {"project": "https://vehiclereid.github.io/VeRi/"}
+  },
+  {
+    "title": "Attributes Guided Feature Learning for Vehicle Re-identification",
+    "year": 2019,
+    "journal": "Arxiv",
+    "datasets": {
+      "VERI776": {
+        "mAP": 61.06,
+        "R@1": 91.36,
+        "R@5": 95.77
+      },
+      "VehicleID": {
+        "mAP": "78.03,74.87,73.15",
+        "R@1": "75.23,72.15,70.46",
+        "R@5": "88.11,84.37,82.13"
+      }
+    },
+    "authors": ["Aihua Zheng", "Xianmin Lin"],
+    "links": {"arxiv": "https://arxiv.org/pdf/1905.08997v1.pdf"}
+  },
+  {
+    "title": "Part-regularized Near-duplicate Vehicle Re-identification Bing",
+    "year": 2019,
+    "journal": "CVPR",
+    "datasets": {
+      "VERI776": {
+        "mAP": 74.30,
+        "R@1": 94.30,
+        "R@5": 98.70
+      },
+      "VehicleID": {
+        "R@1": "78.40,75.00,74.20",
+        "R@5": "92.30,88.30,86.40"
+      }
+    },
+    "authors": ["Aihua Zheng", "Xianmin Lin"],
+    "links": {"arxiv": "https://arxiv.org/pdf/1905.08997v1.pdf"}
+  }
+]
