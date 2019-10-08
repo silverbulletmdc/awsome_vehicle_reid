@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Awsome Vehicle ReID</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    h1 {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    .table-con {
+        width: 800px;
+        margin: 0 auto;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    tr {
+        height: 50px;
+        overflow: hidden;
+    }
+
+    .showing {
+        margin: 30px auto;
+        padding: auto;
+        text-align: center;
+
+    }
+
+    .showing span {
+        border-radius: 4px;
+        padding: 3px;
+        margin: 0 5px;
+    }
+
+    .score {
+        color: blue;
+    }
+
+    .link {
+        margin: 0 3px;
+    }
+</style>
+<body>
+<h1 class="h1">Awsome Vehicle ReID</h1>
+<div id="app">
+    <div class="showing">
+        <span v-for="(key, i) in keys" v-bind:class="{'btn-success' : show_key[i], 'btn-danger' : !show_key[i]}"
+              @click="flip(show_key, i)">{{ key }}</span> |
+        <span v-for="(dataset, i) in datasets"
+              v-bind:class="{'btn-primary' : show_dataset[i], 'btn-danger' : !show_dataset[i]}"
+              @click="flip(show_dataset, i)">{{ dataset }}</span> |
+        <span v-for="(metric, i) in metrics"
+              v-bind:class="{'btn-info' : show_metric[i], 'btn-danger' : !show_metric[i]}"
+              @click="flip(show_metric, i)">{{ metric }}</span>
+    </div>
+    <div class="table-con">
+        <table class="table">
+            <tr>
+                <th v-for="key in showing_keys" @click="sortby(key)">{{ key }}▽</th>
+            </tr>
+            <tr v-for="paper in papers">
+                <td v-for="(key, i) in showing_keys">
+                    <div v-if="key==='links'">
+                    <span v-for="(link, name) in paper[key]" class="link">
+                        <a v-bind:href="link">{{ name }}</a>
+                    </span>
+                    </div>
+                    <div v-if="key==='authors'">{{ paper[key].join('; ') }}</div>
+                    <div v-if="key==='datasets'">
+                        <div v-for="(result, dataset) in paper[key]" v-if="showing_dataset.indexOf(dataset) != -1">
+                            <b>{{ dataset }}</b> <span v-for="(score, metric) in result" v-if="showing_metric.indexOf(metric) != -1"><i>{{ metric }}</i>: <span
+                                class="score">{{ score }} </span> <br></span>
+                        </div>
+                    </div>
+                    <div v-if="key==='journal' || key==='year' || key==='title'">{{ paper[key] }}</div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+<script>
+    new Vue({
+            el: '#app',
+            data: {
+                keys: ['title', 'year', 'journal', 'datasets', 'authors', 'links'],
+                show_key: [true, true, true, true, true, true],
+
+                datasets: ["veri776", "veri-wild", "vehicleid"],
+                show_dataset: [true, false, false],
+
+                metrics: ["mAP", "rank1", "rank5"],
+                show_metric: [true, false, false],
+
+                papers: [
+                    {
+                        title: "Orientation invariant feature embedding for vehicle ReID",
+                        year: 2015,
+                        journal: "CVPR",
+                        datasets: {
+                            veri776: {
+                                "R@1": 50,
+                                "R@5": 60,
+                                "mAP": 70
+                            },
+                            "veri-wild": {
+                                rank1: 50,
+                                rank5: 60,
+                                mAP: 70
+                            },
+                        },
+                        authors: ["Wang Dingding", "Li gengen"],
+                        links: {pdf: "http://www.baidu.com", code: "http://www.baidu.com"}
+                    },
+                    {
+                        title: "2 Orientation invariant feature embedding for vehicle ReID",
+                        year: 2014,
+                        journal: "ICCV",
+                        datasets: {
+                            veri776: {
+                                rank1: 50,
+                                rank5: 60,
+                                mAP: 70
+                            },
+                        },
+                        authors: ["Wang Dingding", "Li gengen"],
+                        links: {pdf: "http://www.baidu.com", code: "http://www.baidu.com"}
+                    },
+                    {
+                        title: "2 Orientation invariant feature embedding for vehicle ReID",
+                        year: 2016,
+                        journal: "ICCV",
+                        datasets: {
+                            veri776: {
+                                rank1: 50,
+                                rank5: 60,
+                                mAP: 70
+                            },
+                        },
+                        authors: ["Wang Dingding", "Li gengen"],
+                        links: {pdf: "http://www.baidu.com", code: "http://www.baidu.com"}
+                    },
+                    {
+                        title: "2 Orientation invariant feature embedding for vehicle ReID",
+                        year: 2016,
+                        journal: "ECCV",
+                        datasets: {
+                            veri776: {
+                                rank1: 50,
+                                rank5: 60,
+                                mAP: 70
+                            },
+                        },
+                        authors: ["Wang Dingding", "Li gengen"],
+                        links: {pdf: "http://www.baidu.com", code: "http://www.baidu.com"}
+                    }
+                ],
+            },
+            computed: {
+                showing_keys: function () {
+                    return this.keys.filter((key, i) => this.show_key[i]);
+                },
+                showing_dataset: function () {
+                    return this.datasets.filter((key, i) => this.show_dataset[i])
+                },
+                showing_metric: function () {
+                    return this.metrics.filter((key, i) => this.show_metric[i])
+                }
+            },
+            mounted: function () {
+                this.sortby("journal");
+                this.sortby("year");
+            },
+
+            methods: {
+                sortby: function (key) {
+                    this.papers.sort((a, b) => {
+                        if (typeof (a[key]) === "number") {
+                            return -a[key] + b[key]
+                        } else {
+                            return a[key].toString().localeCompare(b[key].toString())
+                        }
+                    });
+
+                },
+                flip: function (a, i) {
+                    Vue.set(a, i, !a[i]);
+                }
+            }
+        }
+    );
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
